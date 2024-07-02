@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-   static List<Article> articles = new ArrayList<>();
+    static List<Article> articles = new ArrayList<>();
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("==프로그램 시작==");
         makeTestData();
-
 
 
         int lastArticleId = 3;
@@ -61,19 +61,13 @@ public class Main {
 
                     }
                 }
+
             } else if (cmd.startsWith("article detail")) {
                 System.out.println("==게시글 상세보기==");
 
                 int id = Integer.parseInt(cmd.split(" ")[2]);
 
-                Article foundArticle = null;
-
-                for (Article article : articles) {
-                    if (article.getId() == id) {
-                        foundArticle = article;
-                        break;
-                    }
-                }
+                Article foundArticle = getArticleById(id);
 
                 if (foundArticle == null) {
                     System.out.println("해당 게시글은 없습니다");
@@ -89,14 +83,7 @@ public class Main {
 
                 int id = Integer.parseInt(cmd.split(" ")[2]);
 
-                Article foundArticle = null;
-
-                for (Article article : articles) {
-                    if (article.getId() == id) {
-                        foundArticle = article;
-                        break;
-                    }
-                }
+                Article foundArticle = getArticleById(id);
 
                 if (foundArticle == null) {
                     System.out.println("해당 게시글은 없습니다");
@@ -109,14 +96,7 @@ public class Main {
 
                 int id = Integer.parseInt(cmd.split(" ")[2]);
 
-                Article foundArticle = null;
-
-                for (Article article : articles) {
-                    if (article.getId() == id) {
-                        foundArticle = article;
-                        break;
-                    }
-                }
+                Article foundArticle = getArticleById(id);
 
                 if (foundArticle == null) {
                     System.out.println("해당 게시글은 없습니다");
@@ -144,69 +124,83 @@ public class Main {
 
     }
 
-     static void makeTestData() {
-         System.out.println("테스트를 위한 데이터 생성 3개");
-         articles.add(new Article(1, Util.getNow(), Util.getNow(), "제목1", "내용1"));
-         articles.add(new Article(2, Util.getNow(), Util.getNow(), "제목2", "내용2"));
-         articles.add(new Article(3, Util.getNow(), Util.getNow(), "제목3", "내용3"));
+    static void makeTestData() {
+        System.out.println("테스트를 위한 데이터 생성 3개");
+        articles.add(new Article(1, Util.getNow(), Util.getNow(), "제목1", "내용1"));
+        articles.add(new Article(2, Util.getNow(), Util.getNow(), "제목2", "내용2"));
+        articles.add(new Article(3, Util.getNow(), Util.getNow(), "제목3", "내용3"));
 
-     }
-
-}
-
-
-class Article {
-    private int id;
-    private String regDate;
-    private String updateDate;
-    private String title;
-    private String body;
-
-    public Article(int id, String regDate, String updateDate, String title, String body) {
-        this.id = id;
-        this.regDate = regDate;
-        this.updateDate = updateDate;
-        this.title = title;
-        this.body = body;
     }
 
-    public String getRegDate() {
-        return regDate;
+    private static Article getArticleById(int id) {
+//        for (int i = 0; i < articles.size(); i++) {
+//            Article article = articles.get(i);
+//            if (article.getId() == id) {
+//                return article;
+//            }
+//        }
+        for (Article article : articles) {
+            if (article.getId() == id) {
+                return article;
+            }
+        }
+        return null;
     }
 
-    public String getUpdateDate() {
-        return updateDate;
-    }
 
-    public void setUpdateDate(String updateDate) {
-        this.updateDate = updateDate;
-    }
+    static class Article {
+        private int id;
+        private String regDate;
+        private String updateDate;
+        private String title;
+        private String body;
 
-    public void setRegDate(String regDate) {
-        this.regDate = regDate;
-    }
+        public Article(int id, String regDate, String updateDate, String title, String body) {
+            this.id = id;
+            this.regDate = regDate;
+            this.updateDate = updateDate;
+            this.title = title;
+            this.body = body;
+        }
 
-    public int getId() {
-        return id;
-    }
+        public String getRegDate() {
+            return regDate;
+        }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+        public String getUpdateDate() {
+            return updateDate;
+        }
 
-    public String getTitle() {
-        return title;
-    }
+        public void setUpdateDate(String updateDate) {
+            this.updateDate = updateDate;
+        }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+        public void setRegDate(String regDate) {
+            this.regDate = regDate;
+        }
 
-    public String getBody() {
-        return body;
-    }
+        public int getId() {
+            return id;
+        }
 
-    public void setBody(String body) {
-        this.body = body;
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getBody() {
+            return body;
+        }
+
+        public void setBody(String body) {
+            this.body = body;
+        }
     }
 }
