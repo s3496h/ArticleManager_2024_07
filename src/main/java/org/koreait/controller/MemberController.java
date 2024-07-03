@@ -1,13 +1,16 @@
-package org.koreait;
+package org.koreait.controller;
+
+import org.koreait.utll.Util;
+import org.koreait.dto.Member;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MemberController extends org.koreait.Controller {
+public class MemberController extends Controller {
 
     private Scanner sc;
-    private List<org.koreait.Member> members;
+    private List<Member> members;
     private String cmd;
 
     private int lastMemberId = 3;
@@ -61,7 +64,7 @@ public class MemberController extends org.koreait.Controller {
         System.out.print("이름 : ");
         String name = sc.nextLine();
 
-        org.koreait.Member member = new org.koreait.Member(id, regDate, loginId, loginPw, name);
+        Member member = new Member(id, regDate, loginId, loginPw, name);
         members.add(member);
 
         System.out.println(id + "번 회원이 가입되었습니다");
@@ -69,7 +72,7 @@ public class MemberController extends org.koreait.Controller {
     }
 
     private boolean isJoinableLoginId(String loginId) {
-        for (org.koreait.Member member : members) {
+        for (Member member : members) {
             if (member.getLoginId().equals(loginId)) {
                 return false;
             }
@@ -79,8 +82,8 @@ public class MemberController extends org.koreait.Controller {
 
     public void makeTestData() {
         System.out.println("회원 테스트 데이터 생성");
-        members.add(new org.koreait.Member(1, Util.getNow(), "test1", "test1", "test1"));
-        members.add(new org.koreait.Member(2, Util.getNow(), "test2", "test2", "test2"));
-        members.add(new org.koreait.Member(3, Util.getNow(), "test3", "test3", "test3"));
+        members.add(new Member(1, Util.getNow(), "test1", "test1", "test1"));
+        members.add(new Member(2, Util.getNow(), "test2", "test2", "test2"));
+        members.add(new Member(3, Util.getNow(), "test3", "test3", "test3"));
     }
 }

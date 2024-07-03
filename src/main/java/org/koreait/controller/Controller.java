@@ -1,7 +1,9 @@
-package org.koreait;
+package org.koreait.controller;
 
-public class Controller {
-    public void doAction(String cmd, String actionMethodName) {
+public abstract class Controller {
+    public abstract void doAction(String cmd, String actionMethodName);
+
+    public void makeTestData() {
 
     }
 }

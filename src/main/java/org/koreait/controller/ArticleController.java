@@ -1,13 +1,16 @@
-package org.koreait;
+package org.koreait.controller;
+
+import org.koreait.utll.Util;
+import org.koreait.dto.Article;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ArticleController extends org.koreait.Controller {
+public class ArticleController extends Controller {
 
     private Scanner sc;
-    private List<org.koreait.Article> articles;
+    private List<Article> articles;
     private String cmd;
 
     private int lastArticleId = 3;
@@ -52,7 +55,7 @@ public class ArticleController extends org.koreait.Controller {
         System.out.print("내용 : ");
         String body = sc.nextLine();
 
-        org.koreait.Article article = new org.koreait.Article(id, regDate, updateDate, title, body);
+        Article article = new Article(id, regDate, updateDate, title, body);
         articles.add(article);
 
         System.out.println(id + "번 글이 생성되었습니다");
@@ -68,13 +71,13 @@ public class ArticleController extends org.koreait.Controller {
 
         String searchKeyword = cmd.substring("article list".length()).trim();
 
-        List<org.koreait.Article> forPrintArticles = articles;
+        List<Article> forPrintArticles = articles;
 
         if (searchKeyword.length() > 0) {
             System.out.println("검색어 : " + searchKeyword);
             forPrintArticles = new ArrayList<>();
 
-            for (org.koreait.Article article : articles) {
+            for (Article article : articles) {
                 if (article.getTitle().contains(searchKeyword)) {
                     forPrintArticles.add(article);
                 }
@@ -88,7 +91,7 @@ public class ArticleController extends org.koreait.Controller {
 
         System.out.println("  번호   /    날짜   /   제목   /   내용   ");
         for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
-            org.koreait.Article article = forPrintArticles.get(i);
+            Article article = forPrintArticles.get(i);
             if (Util.getNow().split(" ")[0].equals(article.getRegDate().split(" ")[0])) {
                 System.out.printf("  %d   /   %s      /   %s   /   %s  \n", article.getId(), article.getRegDate().split(" ")[1], article.getTitle(), article.getBody());
             } else {
@@ -104,7 +107,7 @@ public class ArticleController extends org.koreait.Controller {
 
         int id = Integer.parseInt(cmd.split(" ")[2]);
 
-        org.koreait.Article foundArticle = getArticleById(id);
+        Article foundArticle = getArticleById(id);
 
         if (foundArticle == null) {
             System.out.println("해당 게시글은 없습니다");
@@ -122,7 +125,7 @@ public class ArticleController extends org.koreait.Controller {
 
         int id = Integer.parseInt(cmd.split(" ")[2]);
 
-        org.koreait.Article foundArticle = getArticleById(id);
+        Article foundArticle = getArticleById(id);
 
         if (foundArticle == null) {
             System.out.println("해당 게시글은 없습니다");
@@ -137,7 +140,7 @@ public class ArticleController extends org.koreait.Controller {
 
         int id = Integer.parseInt(cmd.split(" ")[2]);
 
-        org.koreait.Article foundArticle = getArticleById(id);
+        Article foundArticle = getArticleById(id);
 
         if (foundArticle == null) {
             System.out.println("해당 게시글은 없습니다");
@@ -157,8 +160,8 @@ public class ArticleController extends org.koreait.Controller {
         System.out.println(id + "번 게시글이 수정되었습니다");
     }
 
-    private org.koreait.Article getArticleById(int id) {
-        for (org.koreait.Article article : articles) {
+    private Article getArticleById(int id) {
+        for (Article article : articles) {
             if (article.getId() == id) {
                 return article;
             }
@@ -168,8 +171,8 @@ public class ArticleController extends org.koreait.Controller {
 
     public void makeTestData() {
         System.out.println("게시글 테스트 데이터 생성");
-        articles.add(new org.koreait.Article(1, "2023-12-12 12:12:12", "2023-12-12 12:12:12", "제목123", "내용1"));
-        articles.add(new org.koreait.Article(2, Util.getNow(), Util.getNow(), "제목72", "내용2"));
-        articles.add(new org.koreait.Article(3, Util.getNow(), Util.getNow(), "제목1233", "내용3"));
+        articles.add(new Article(1, "2023-12-12 12:12:12", "2023-12-12 12:12:12", "제목123", "내용1"));
+        articles.add(new Article(2, Util.getNow(), Util.getNow(), "제목72", "내용2"));
+        articles.add(new Article(3, Util.getNow(), Util.getNow(), "제목1233", "내용3"));
     }
 }

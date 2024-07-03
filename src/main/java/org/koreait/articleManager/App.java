@@ -1,4 +1,8 @@
-package org.koreait;
+package org.koreait.articleManager;
+
+import org.koreait.controller.ArticleController;
+import org.koreait.controller.Controller;
+import org.koreait.controller.MemberController;
 
 import java.util.Scanner;
 
@@ -7,13 +11,13 @@ public class App {
         Scanner sc = new Scanner(System.in);
         System.out.println("==프로그램 시작==");
 
-        org.koreait.MemberController memberController = new org.koreait.MemberController(sc);
-        org.koreait.ArticleController articleController = new org.koreait.ArticleController(sc);
+        MemberController memberController = new MemberController(sc);
+        ArticleController articleController = new ArticleController(sc);
 
         articleController.makeTestData();
         memberController.makeTestData();
 
-        org.koreait.Controller controller = null;
+        Controller controller = null;
 
 
         while (true) {
@@ -50,21 +54,6 @@ public class App {
 
             controller.doAction(cmd, actionMethodName);
 
-//            if (cmd.equals("member join")) {
-//                memberController.doJoin();
-//            } else if (cmd.equals("article write")) {
-//                articleController.doWrite();
-//            } else if (cmd.startsWith("article list")) {
-//                articleController.showList(cmd);
-//            } else if (cmd.startsWith("article detail")) {
-//                articleController.showDetail(cmd);
-//            } else if (cmd.startsWith("article delete")) {
-//                articleController.doDelete(cmd);
-//            } else if (cmd.startsWith("article modify")) {
-//                articleController.doModify(cmd);
-//            } else {
-//                System.out.println("사용할 수 없는 명령어입니다");
-//            }
 
         }
         System.out.println("==프로그램 종료==");
