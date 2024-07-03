@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MemberController {
+public class MemberController extends org.koreait.Controller {
 
-    Scanner sc;
-    List<Member> members;
+    private Scanner sc;
+    private List<org.koreait.Member> members;
+    private String cmd;
 
     private int lastMemberId = 3;
 
@@ -16,7 +17,20 @@ public class MemberController {
         members = new ArrayList<>();
     }
 
-    public void doJoin() {
+    public void doAction(String cmd, String actionMethodName) {
+        this.cmd = cmd;
+
+        switch (actionMethodName) {
+            case "join":
+                doJoin();
+                break;
+            default:
+                System.out.println("명령어 확인 (actionMethodName) 오류");
+                break;
+        }
+    }
+
+    private void doJoin() {
         System.out.println("==회원가입==");
         int id = lastMemberId + 1;
         String regDate = Util.getNow();
@@ -47,7 +61,7 @@ public class MemberController {
         System.out.print("이름 : ");
         String name = sc.nextLine();
 
-        Member member = new Member(id, regDate, loginId, loginPw, name);
+        org.koreait.Member member = new org.koreait.Member(id, regDate, loginId, loginPw, name);
         members.add(member);
 
         System.out.println(id + "번 회원이 가입되었습니다");
@@ -55,7 +69,7 @@ public class MemberController {
     }
 
     private boolean isJoinableLoginId(String loginId) {
-        for (Member member : members) {
+        for (org.koreait.Member member : members) {
             if (member.getLoginId().equals(loginId)) {
                 return false;
             }
@@ -65,8 +79,8 @@ public class MemberController {
 
     public void makeTestData() {
         System.out.println("회원 테스트 데이터 생성");
-        members.add(new Member(1, Util.getNow(), "test1", "test1", "test1"));
-        members.add(new Member(2, Util.getNow(), "test2", "test2", "test2"));
-        members.add(new Member(3, Util.getNow(), "test3", "test3", "test3"));
+        members.add(new org.koreait.Member(1, Util.getNow(), "test1", "test1", "test1"));
+        members.add(new org.koreait.Member(2, Util.getNow(), "test2", "test2", "test2"));
+        members.add(new org.koreait.Member(3, Util.getNow(), "test3", "test3", "test3"));
     }
 }
