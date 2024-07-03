@@ -1,5 +1,6 @@
 package org.koreait.controller;
 
+import org.koreait.articleManager.Main;
 import org.koreait.utll.Util;
 import org.koreait.dto.Member;
 
@@ -12,7 +13,7 @@ public class MemberController extends Controller {
     private Scanner sc;
     private List<Member> members;
     private String cmd;
-
+    private Member loginedMember = null;
     private int lastMemberId = 3;
 
     public MemberController(Scanner sc) {
@@ -24,6 +25,12 @@ public class MemberController extends Controller {
         this.cmd = cmd;
 
         switch (actionMethodName) {
+            case "login":
+                doLogin();
+                break;
+            case "logout":
+                doLogout();
+                break;
             case "join":
                 doJoin();
                 break;
@@ -32,6 +39,53 @@ public class MemberController extends Controller {
                 break;
         }
     }
+    private boolean isLogined(){
+        return loginedMember != null;
+    }
+
+    private void doLogout() {
+        if (!isLogined()) {
+            System.out.println("이미 로그아웃 상태");
+            return;
+        }
+        loginedMember = null;
+
+        System.out.println("로그아웃 되었습니다");
+    }
+
+    private void doLogin() {
+        if (isLogined()) {
+            System.out.println("이미 로그인중");
+            return;
+        }
+        System.out.println("==로그인==");
+
+        System.out.print("로그인 아이디 : ");
+        String loginId = sc.nextLine().trim();
+        System.out.print("비밀번호 : ");
+        String loginPw = sc.nextLine();
+
+        // 얘 내 회원인가? -> 사용자가 방금 입력한 로그인 아이디랑 일치하는 회원이 나한테 있나?
+
+        Member member = getMemberByLoginId(loginId);
+
+        if (member == null) {
+            System.out.println("일치하는 회원이 없어");
+            return;
+        }
+
+        // 있는놈이야. // 내가 알고있는 이놈의 비번이 지금 얘가 입력한거랑 일치하는가?
+
+        if (member.getLoginPw().equals(loginPw) == false) {
+            System.out.println("비번이 틀렸어");
+            return;
+        }
+
+        loginedMember = member; // 누가 로그인 했는가?
+
+        System.out.printf("%s님 로그인 성공\n", member.getName());
+    }
+
 
     private void doJoin() {
         System.out.println("==회원가입==");
@@ -79,6 +133,15 @@ public class MemberController extends Controller {
         }
         return true;
     }
+    private Member getMemberByLoginId(String loginId) {
+        for (Member member : members) {
+            if (member.getLoginId().equals(loginId)) {
+                return member;
+            }
+        }
+        return null;
+    }
+
 
     public void makeTestData() {
         System.out.println("회원 테스트 데이터 생성");
