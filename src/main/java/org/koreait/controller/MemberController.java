@@ -1,6 +1,6 @@
 package org.koreait.controller;
 
-import org.koreait.articleManager.Main;
+
 import org.koreait.utll.Util;
 import org.koreait.dto.Member;
 

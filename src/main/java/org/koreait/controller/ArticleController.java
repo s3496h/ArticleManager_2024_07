@@ -35,7 +35,6 @@ public class ArticleController extends Controller {
                 showDetail();
                 break;
             case "modify":
-
                 doModify();
                 break;
             case "delete":
@@ -137,15 +136,15 @@ public class ArticleController extends Controller {
             System.out.println("해당 게시글은 없습니다");
             return;
         }
+        if (foundArticle.getMemberId() != loginedMember.getId()) {
+            System.out.println("권한 없음");
+            return;
+        }
         articles.remove(foundArticle);
         System.out.println(id + "번 게시글이 삭제되었습니다");
     }
 
     private void doModify() {
-        if (!MemberController.isLogined())  {
-            System.out.println("로그인 후 이용해주세요");
-            return;
-        }
         System.out.println("==게시글 수정==");
 
         int id = Integer.parseInt(cmd.split(" ")[2]);
@@ -154,6 +153,10 @@ public class ArticleController extends Controller {
 
         if (foundArticle == null) {
             System.out.println("해당 게시글은 없습니다");
+            return;
+        }
+        if (foundArticle.getMemberId()!=loginedMember.getId()) {
+            System.out.println("권한 없음");
             return;
         }
         System.out.println("기존 제목 : " + foundArticle.getTitle());
