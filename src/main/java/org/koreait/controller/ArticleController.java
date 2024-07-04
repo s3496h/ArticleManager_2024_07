@@ -1,8 +1,8 @@
 package org.koreait.controller;
-
+import org.koreait.dto.Member;
 import org.koreait.utll.Util;
 import org.koreait.dto.Article;
-
+import org.koreait.articleManager.Container;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,9 +15,12 @@ public class ArticleController extends Controller {
 
     private int lastArticleId = 3;
 
+    List<Member> members = Container.memberDao.members;
+
     public ArticleController(Scanner sc) {
         this.sc = sc;
         articles = new ArrayList<>();
+        articles = Container.articleDao.articles;
     }
 
     public void doAction(String cmd, String actionMethodName) {
@@ -84,27 +87,33 @@ public class ArticleController extends Controller {
                     forPrintArticles.add(article);
                 }
             }
+
             if (forPrintArticles.size() == 0) {
                 System.out.println("  번호   /    날짜     /    작성자   /   제목   /   내용   ");
                 System.out.println("검색 결과 없음");
                 return;
             }
         }
+        String writerName = null;
 
         System.out.println("  번호   /    날짜     /    작성자   /   제목   /   내용   ");
         for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
             Article article = forPrintArticles.get(i);
-            if (Util.getNow().split(" ")[0].equals(article.getRegDate().split(" ")[0])) {
-                System.out.printf("  %d   /   %s     /     %d     /   %s   /   %s  \n", article.getId(), article.getRegDate().split(" ")[1],
-                        article.getMemberId(), article.getTitle(), article.getBody());
-            } else {
-                System.out.printf("  %d   /   %s     /     %d     /   %s   /   %s  \n", article.getId(), article.getRegDate().split(" ")[1],
-                        article.getMemberId(), article.getTitle(), article.getBody());
-            }
 
+            for (Member member : members) {
+                if (article.getMemberId() == member.getId()) {
+                    writerName = member.getName();
+                    break;
+                }
+            }
+            if (Util.getNow().split(" ")[0].equals(article.getRegDate().split(" ")[0])) {
+            System.out.printf("  %d   /   %s     /     %s     /   %s   /   %s  \n", article.getId(), article.getRegDate().split(" ")[1], writerName, article.getTitle(), article.getBody());
+        } else{
+            System.out.printf("  %d   /   %s     /     %s     /   %s   /   %s  \n", article.getId(), article.getRegDate().split(" ")[0], writerName, article.getTitle(), article.getBody());
         }
 
     }
+}
 
     private void showDetail() {
         System.out.println("==게시글 상세보기==");
