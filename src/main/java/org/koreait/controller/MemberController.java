@@ -1,7 +1,7 @@
 package org.koreait.controller;
 
-import org.koreait.articleManager.Main;
-import org.koreait.utll.Util;
+import org.koreait.articleManager.Container;
+import org.koreait.util.Util;
 import org.koreait.dto.Member;
 
 import java.util.ArrayList;
@@ -13,29 +13,26 @@ public class MemberController extends Controller {
     private Scanner sc;
     private List<Member> members;
     private String cmd;
-    private static Member loginedMember = null;
+
     private int lastMemberId = 3;
 
     public MemberController(Scanner sc) {
         this.sc = sc;
-        members = new ArrayList<>();
+        members = Container.memberDao.members;
     }
 
     public void doAction(String cmd, String actionMethodName) {
         this.cmd = cmd;
 
         switch (actionMethodName) {
+            case "join":
+                doJoin();
+                break;
             case "login":
-
                 doLogin();
                 break;
             case "logout":
-
                 doLogout();
-                break;
-            case "join":
-
-                doJoin();
                 break;
             default:
                 System.out.println("명령어 확인 (actionMethodName) 오류");
@@ -44,14 +41,11 @@ public class MemberController extends Controller {
     }
 
     private void doLogout() {
-
         loginedMember = null;
-
         System.out.println("로그아웃 되었습니다");
     }
 
     private void doLogin() {
-
         System.out.println("==로그인==");
 
         System.out.print("로그인 아이디 : ");
@@ -127,6 +121,7 @@ public class MemberController extends Controller {
         }
         return true;
     }
+
     private Member getMemberByLoginId(String loginId) {
         for (Member member : members) {
             if (member.getLoginId().equals(loginId)) {
@@ -135,7 +130,6 @@ public class MemberController extends Controller {
         }
         return null;
     }
-
 
     public void makeTestData() {
         System.out.println("회원 테스트 데이터 생성");
