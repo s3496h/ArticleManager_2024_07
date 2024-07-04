@@ -26,24 +26,15 @@ public class MemberController extends Controller {
 
         switch (actionMethodName) {
             case "login":
-                if (isLogined()) {
-                    System.out.println("이미 로그인중");
-                    return;
-                }
+
                 doLogin();
                 break;
             case "logout":
-                if (isLogined()) {
-                    System.out.println("이미 로그인중");
-                    return;
-                }
+
                 doLogout();
                 break;
             case "join":
-                if (isLogined()) {
-                    System.out.println("이미 로그인중");
-                    return;
-                }
+
                 doJoin();
                 break;
             default:
